@@ -1,5 +1,7 @@
 from flask import Flask
 from flask_login import LoginManager
+from flask import session
+from config import SECRET_KEY
 # Define the WSGI application object
 app = Flask(__name__)
 
@@ -8,6 +10,7 @@ app.config.from_object('config')
 
 config = app.config
 
+app.secret_key = SECRET_KEY
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -28,5 +31,5 @@ def unauthorized():
 
 @login_manager.user_loader
 def load_user(user_id):
-    from .models import User
-    return User.query.get(user_id)
+    from .logic.DAO import Users
+    return Users.find(user_id)
