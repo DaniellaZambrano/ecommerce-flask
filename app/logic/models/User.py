@@ -21,12 +21,12 @@ class User(BaseModel):
 
     # User Cellphone
     cellphone = db.Column(db.String(128),  nullable=False, unique=True)
-    birth_date = db.Column(db.DateTime, nullable = False)
+    birth_date = db.Column(db.Date, nullable = False)
 
 
     # Identification Data: username, email & password
     username    = db.Column(db.String(128),  nullable=False, unique=True)
-    email    = db.relationship('Email',   backref = db.backref('User', lazy=True), uselist = False)
+    email    = db.relationship(Email, backref = db.backref('user', uselist = False))
     password = db.Column(db.String(192),  nullable=False)
 
     # User type to define it permissions
@@ -56,11 +56,17 @@ class User(BaseModel):
         return '<User %r>' % (self.name)
 
     def is_authenticated(self):
-        return self.email.confirmed
+        return True
+
+    def is_active(self):   
+        return self.email.confirmed           
+
+    def is_anonymous(self):
+        return False  
 
     def get_id(self):
-        return self.id  
-        
+        return str(self.id)  
+
     def serialize(self):
         """
         Return as dict
@@ -71,12 +77,7 @@ class User(BaseModel):
             "name": self.name,
             "lastname": self.lastname,
             "birth_date": self.birth_date,
-            "identification_type": self.identification_type,
-            "identification_number": self.identification_number,
-            "cellphone": self.cellphone,
             "username": self.username,
             "email": self.email.address,
             "user_type": self.user_type.name,
-            "address": self.address,
-            "alt_address": self.alt_address
         }
