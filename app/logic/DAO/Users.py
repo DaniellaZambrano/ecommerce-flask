@@ -1,5 +1,5 @@
 from .DAO import DAO
-from ..models import User, UserType
+from ..models import User
 from app import db
 import bcrypt
 
@@ -24,7 +24,7 @@ class Users(DAO):
 
             return user.id
         except Exception as ex:
-            traceback.print_exc()
+           # traceback.print_exc()
             return 0
 
     def get(self):
@@ -67,7 +67,7 @@ class Users(DAO):
 
             return user.id
         except Exception as ex:
-            traceback.print_exc()
+            # traceback.print_exc()
             raise ex
 
     def update_status_store(self, data):
@@ -75,7 +75,7 @@ class Users(DAO):
         Updates a Record on the Database 
         """
         try:
-            user = UserModel.query.filter_by(id = data['id']).first()
+            user = User.query.filter_by(id = data['id']).first()
 
             user.status = data['status']
                
@@ -83,7 +83,7 @@ class Users(DAO):
 
             return user.id
         except Exception as ex:
-            traceback.print_exc()
+            # traceback.print_exc()
             raise ex
     def delete(self, id):
         """
@@ -97,7 +97,7 @@ class Users(DAO):
         """
         Find an Operator by username
         """ 
-        user = UserModel.query.filter_by(username=username).first()
+        user = User.query.filter_by(username=username).first()
 
 
         return user
@@ -106,7 +106,7 @@ class Users(DAO):
         """
         Find an Operator by username
         """ 
-        users = UserModel.query.filter_by(role_id=1).all()
+        users = User.query.filter_by(role_id=1).all()
 
 
         return users
@@ -115,7 +115,7 @@ class Users(DAO):
         """
         Find an Operator by username
         """ 
-        users = UserModel.query.filter_by(role_id=4).all()
+        users = User.query.filter_by(role_id=4).all()
 
 
         return users
@@ -124,7 +124,7 @@ class Users(DAO):
         """
         Find an Operator by username
         """ 
-        users = UserModel.query.filter_by(role_id=5).all()
+        users = User.query.filter_by(role_id=5).all()
 
 
         return users
@@ -133,7 +133,7 @@ class Users(DAO):
         """
         Find an Operator by username
         """
-        users = UserModel.query.filter_by(role_id=3).all()
+        users = User.query.filter_by(role_id=3).all()
 
 
         return users

@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, jsonify, request
 from flask_login import login_required
 from .validators.signup_validator import signup_validator 
 import json
@@ -14,6 +14,13 @@ def signup():
     data = request.form.to_dict()
     validator = signup_validator(data)
     validator.validate()
+
+    response = Users.add(data)
+    if response > 0:
+        # Admin registered succesfully
+        return {"status":1, "message":"Registro exitoso","data": { "id":response } }, 200
+    else:
+        return {"status":0, "message":"Hubo un error interno" }, 400
 
     # try:
     #     data = json.loads(request.data)
