@@ -9,11 +9,10 @@ user = Blueprint('user', __name__, url_prefix='/user/')
 # Sign up -> sign_up
 @user.route('/signup', methods=['POST'])
 def signup():
-    print(request.form)
-
     data = request.form.to_dict()
-    validator = signup_validator(data)
-    validator.validate()
+    # validator = signup_validator(data)
+    # validator.validate()
+    data["role_id"] = "user"
 
     response = Users.add(data)
     if response > 0:

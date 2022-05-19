@@ -1,5 +1,6 @@
 from .BaseModel import BaseModel
 from app import db
+from sqlalchemy.orm import backref
 
 class Email(BaseModel):
 
@@ -7,7 +8,8 @@ class Email(BaseModel):
 
     address = db.Column(db.String(64), nullable=False, unique=True)
     confirmed = db.Column(db.Boolean, default=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('User'))
+    user_id = db.Column(db.Integer, db.ForeignKey('User.id'))
+    user = db.relationship('User', backref=backref('Email', uselist=False))
 
 
     def __init__(self, address):

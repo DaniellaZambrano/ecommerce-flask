@@ -3,6 +3,8 @@ from flask_login import LoginManager
 from flask import session
 from config import *
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine, inspect
+import sqlalchemy
 
 # Define the WSGI application object
 app = Flask(__name__)
@@ -13,15 +15,18 @@ app.config.from_object('config')
 config = app.config
 app.secret_key = SECRET_KEY
 
-# Flask Database
+# Flask Database creation
 db = SQLAlchemy(app)
 db.init_app(app)
-from os import path
-if not path.exists('../dev'):
-    db.create_all()
-    print('Created Database!')
+db.create_all()
+print('Created Database!')
 
-
+# User tables creation
+from .logic.models.User import User
+engine = create_engine(SQLALCHEMY_DATABASE_URI,echo=False)
+if not inspect(engine).has_table('User') :
+    User.metadata.create_all(engine)
+    print('Created User Table!')
 
 # Flask Login Manager
 login_manager = LoginManager()

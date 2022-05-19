@@ -26,11 +26,11 @@ class User(BaseModel):
 
     # Identification Data: username, email & password
     username    = db.Column(db.String(128),  nullable=False, unique=True)
-    email    = db.relationship(Email, backref = db.backref('user', uselist = False))
+    #email    = db.relationship(Email, backref = db.backref('user', uselist = False))
     password = db.Column(db.String(192),  nullable=False)
 
     # User type to define it permissions
-    user_type = db.relationship('UserType', backref = db.backref('User', lazy=True))
+    # user_type = db.relationship(UserType, backref = db.backref('user', lazy=True))
 
     #Addredd and alternative address
     address = db.Column(db.String(256),  nullable=False,)
@@ -51,6 +51,7 @@ class User(BaseModel):
         self.user_type = UserType(user_type)
         self.address = address
         self.alt_address = alt_address
+
 
     def __repr__(self):
         return '<User %r>' % (self.name)

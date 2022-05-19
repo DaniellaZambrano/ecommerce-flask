@@ -1,5 +1,5 @@
 from .DAO import DAO
-from ..models import User
+from ..models.User import User
 from app import db
 import bcrypt
 
@@ -11,20 +11,24 @@ class Users(DAO):
     def __init__(self):
         pass
 
-    def add(self, data):
+    def add(data):
         """ 
         Adds to the Database
         """
         try:
             hashed_password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
-            # ARREGLAR
-            user = User(data["identification_type"], data["identification_number"], data["cellphone"], data['role_id'], data["name"], data["last_name"], data["username"], data["businessName"], data["email"], hashed_password.decode('utf8'), data["status"], data["parent_id"])
+
+            print("Creating....")
+            user = User(data["identification_type"], data["identification_number"], data["cellphone"], data['role_id'], data["name"], data["last_name"], data["username"],data["birth_date"], data["email"], hashed_password.decode('utf8'), data["address"], data["alt_address"])
+            print("user created")
             db.session.add(user)
+            db.session.add(user.email)
+            db.session.add(user.user_type)
             db.session.commit()
 
             return user.id
         except Exception as ex:
-           # traceback.print_exc()
+            # traceback.print_exc()
             return 0
 
     def get(self):
