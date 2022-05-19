@@ -13,6 +13,8 @@ def signup():
     # validator = signup_validator(data)
     # validator.validate()
     data["role_id"] = "user"
+    if Users.find(data["identification_number"],data["identification_type"]):
+        return {"status":0, "message":"Ya el usuario se encuentra registrado" }, 400
 
     response = Users.add(data)
     if response > 0:

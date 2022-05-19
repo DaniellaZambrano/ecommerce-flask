@@ -39,13 +39,15 @@ class Users(DAO):
 
         return users
 
-    def find(self, id):
+    def find(identification_number, identification_type):
         """
         Find a single record from the Database by id
         """
-        user = User.query.get(id = id)
-
-        return user
+        user = User.query.filter_by(identification_number = identification_number).first()
+        if user.identification_type == identification_type:
+            return user
+        
+        return False
 
     def update(self, data):
         """
