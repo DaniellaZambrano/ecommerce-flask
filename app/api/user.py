@@ -1,8 +1,10 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from .validators.signup_validator import signup_validator 
+from .validators.signup_validator import signup_validator
+from .validators.exception_validator import ValidationException
 import json
 from ..logic.DAO.Users import Users
+from datetime import datetime
 
 user = Blueprint('user', __name__, url_prefix='/user/')
 
@@ -12,11 +14,23 @@ def signup():
     data = request.form.to_dict()
     # validator = signup_validator(data)
     # validator.validate()
-    data["role_id"] = "user"
-    if Users.find(data["identification_number"],data["identification_type"]):
-        return {"status":0, "message":"Ya el usuario se encuentra registrado" }, 400
+    # T = {'birth_date':str(datetime.utcnow().date())}
+    # temp = date_validator(T)
+    # try:
+    #     temp.validate()
+    # except ValidationException as en:
+    #     return {"status":0, "message":en.message }, 202
+    # print("Date validated")
 
+    try:
+        validator = signup_validator(data)
+        validator.validate()
+    except ValidationException as ex:
+        return {"status":0, "message":ex.message }, 202
+
+    data["role_id"] = "user"
     response = Users.add(data)
+
     if response > 0:
         # Admin registered succesfully
         return {"status":1, "message":"Registro exitoso","data": { "id":response } }, 200

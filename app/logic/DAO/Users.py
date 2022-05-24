@@ -28,7 +28,7 @@ class Users(DAO):
 
             return user.id
         except Exception as ex:
-            # traceback.print_exc()
+            print(ex.__repr__())
             return 0
 
     def get(self):
@@ -44,7 +44,7 @@ class Users(DAO):
         Find a single record from the Database by id
         """
         user = User.query.filter_by(identification_number = identification_number).first()
-        if user.identification_type == identification_type:
+        if user != None and user.identification_type is identification_type:
             return user
         
         return False
