@@ -34,7 +34,7 @@ class User(BaseModel):
 
     #Addredd and alternative address
     address = db.Column(db.String(256),  nullable=False,)
-    alt_address = db.Column(db.String(256),  nullable=False,)
+    alt_address = db.Column(db.String(256),  nullable=False)
 
     # New instance instantiation procedure
     def __init__(self, identification_type, identification_number, cellphone, user_type, name, lastname, username, birth_date, email, passwordm, address, alt_address):
@@ -54,7 +54,7 @@ class User(BaseModel):
 
 
     def __repr__(self):
-        return '<User %r>' % (self.name)
+        return '<User %r>' % (self.username)
 
     def is_authenticated(self):
         return True

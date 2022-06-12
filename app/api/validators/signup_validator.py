@@ -35,7 +35,8 @@ class signup_validator():
                     'username':'nombre de usuario',
                     'email':'correo electronico',
                     'birth_date':'fecha de nacimiento',
-                    'address':'Direccion'
+                    'address':'Direccion',
+                    'alt_address':'Direccion alterna'
         }
 
         if translator[field]:
@@ -59,7 +60,7 @@ class signup_validator():
             'password': {'type': 'string', 'empty': False, 'required': True},
             'repeat_password': {'type': 'string', 'empty': False, 'required': True},
             'address': {'type': 'string', 'empty': False, 'required': True},
-            'alt_address': {'type': 'string', 'empty': False}
+            'alt_address': {'type': 'string', 'required': False}
             }
 
         v = Validator(schema)
