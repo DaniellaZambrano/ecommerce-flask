@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from flask_login import login_required
+from flask_login import login_required, login_user
 from .validators.signup_validator import signup_validator
 from .validators.login_validator import login_validator
 from .validators.exception_validator import ValidationException
@@ -36,13 +36,17 @@ def signup():
 @user.route('/login', methods=['POST'])
 def login():
     data = request.form.to_dict()
-    # request.json
+
+    data['remember_me'] = True if data['remember_me'] == 'true' else False
+        
+
     try:
         validator = login_validator(data)
         user = validator.validate()
     except ValidationException as ex:
         return {"status":0, "message":ex.message }, 202
 
+    login_user(user, remember = data['remember_me'])
     return {"status":1, "message":"Login exitoso","user": user.serialize() }, 200
       
 

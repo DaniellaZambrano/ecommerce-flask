@@ -79,6 +79,6 @@ class User(BaseModel):
             "lastname": self.lastname,
             "birth_date": self.birth_date,
             "username": self.username,
-            "email": self.email.address,
-            "user_type": self.user_type.name,
+            # "email": Email.query.filter_by(id = self.id).first().address,
+            "user_type": UserType.query.filter_by(id = self.id).first().name
         }

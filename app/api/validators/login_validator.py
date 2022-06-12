@@ -33,6 +33,7 @@ class login_validator():
         schema = {
             'username': {'type': 'string', 'empty': False, 'required': True},
             'password': {'type': 'string', 'empty': False, 'required': True},
+            'remember_me': {'type': 'boolean', 'empty': False, 'required': True},
             }
 
         v = Validator(schema)
@@ -57,14 +58,11 @@ class login_validator():
 
 
         user = username_exists if username_exists else User.query.filter_by(id = email_exists.id).first()
-        print("Real user value:{}".format(user))
 
         if user is None:
             raise ValidationException("Error")
 
-        hashed_password = bcrypt.hashpw(self.data["password"].encode('utf-8'), bcrypt.gensalt())
-
-        if user.password != hashed_password.decode('utf8'):
-            raise ValidationException("Contraseña invalida")
+        if not bcrypt.checkpw(bytes(self.data["password"],'utf-8'), bytes(user.password, 'utf-8')):
+            raise ValidationException("Contrasena invalida")
 
         return user
