@@ -5,6 +5,8 @@ from config import *
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, inspect
 import sqlalchemy
+from flask_cors import CORS
+
 
 # Define the WSGI application object
 app = Flask(__name__)
@@ -52,5 +54,10 @@ def load_user(user_id):
     return Users.find(user_id)
 
 
+CORS(app, origins=app.config['ALLOWED_ORIGINS'], supports_credentials= True)
+
 from app.api.user import user
+from app.api.product import item
+
 app.register_blueprint(user)
+app.register_blueprint(item)

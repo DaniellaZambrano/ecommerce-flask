@@ -5,7 +5,7 @@ import bcrypt
 
 class Users(DAO):
     """
-    User Data Access Object Abstract Class.
+    User Data Access Object Class.
     """
 
     def __init__(self):
@@ -18,7 +18,7 @@ class Users(DAO):
         try:
             hashed_password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
 
-            print("Creating....")
+            print("Creating User....")
             user = User(data["identification_type"], data["identification_number"], data["cellphone"], data['role_id'], data["name"], data["last_name"], data["username"],data["birth_date"], data["email"], hashed_password.decode('utf8'), data["address"], data["alt_address"])
             print("user created")
             db.session.add(user)

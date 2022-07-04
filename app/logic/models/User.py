@@ -14,10 +14,10 @@ class User(BaseModel):
     identification_number = db.Column(db.String(15), nullable=False, unique=True)
  
     # User Name
-    name    = db.Column(db.String(128),  nullable=True)
+    name    = db.Column(db.String(128),  nullable=False)
 
     # User Lastname
-    lastname    = db.Column(db.String(128),  nullable=True)
+    lastname    = db.Column(db.String(128),  nullable=False)
 
     # User Cellphone
     cellphone = db.Column(db.String(128),  nullable=False, unique=True)
