@@ -8,20 +8,20 @@ class User(BaseModel):
     __tablename__ = 'User'
 
     # Identification Type
-    identification_type = db.Column(db.String(1), nullable=False)
+    identification_type = db.Column(db.String(1), nullable=True)
 
     # Identification Number
-    identification_number = db.Column(db.String(15), nullable=False, unique=True)
+    identification_number = db.Column(db.String(15), nullable=True, unique=True)
  
     # User Name
-    name    = db.Column(db.String(128),  nullable=False)
+    name    = db.Column(db.String(128),  nullable=True)
 
     # User Lastname
-    lastname    = db.Column(db.String(128),  nullable=False)
+    lastname    = db.Column(db.String(128),  nullable=True)
 
     # User Cellphone
-    cellphone = db.Column(db.String(128),  nullable=False, unique=True)
-    birth_date = db.Column(db.Date, nullable = False)
+    cellphone = db.Column(db.String(128),  nullable=True, unique=True)
+    birth_date = db.Column(db.Date, nullable = True)
 
 
     # Identification Data: username, email & password
@@ -33,24 +33,15 @@ class User(BaseModel):
     # user_type = db.relationship(UserType, backref = db.backref('user', lazy=True))
 
     #Addredd and alternative address
-    address = db.Column(db.String(256),  nullable=False,)
-    alt_address = db.Column(db.String(256),  nullable=False)
+    address = db.Column(db.String(256),  nullable=True,)
+    alt_address = db.Column(db.String(256),  nullable=True)
 
     # New instance instantiation procedure
-    def __init__(self, identification_type, identification_number, cellphone, user_type, name, lastname, username, birth_date, email, passwordm, address, alt_address):
-
-        self.identification_type = identification_type
-        self.identification_number = identification_number
-        self.name     = name
-        self.lastname = lastname
-        self.cellphone = cellphone
+    def __init__(self, username, email, passwordm, user_type):
         self.username = username
-        self.birth_date = birth_date
         self.email    = Email(email)
         self.password = passwordm
         self.user_type = UserType(user_type)
-        self.address = address
-        self.alt_address = alt_address
 
 
     def __repr__(self):
@@ -67,6 +58,17 @@ class User(BaseModel):
 
     def get_id(self):
         return str(self.id)  
+
+    def confirm_user(self, identification_type, identification_number, cellphone, name, lastname, birth_date, address, alt_address):
+        self.identification_type = identification_type
+        self.identification_number = identification_number
+        self.name     = name
+        self.lastname = lastname
+        self.cellphone = cellphone
+        self.birth_date = birth_date
+        self.address = address
+        self.alt_address = alt_address
+
 
     def serialize(self):
         """

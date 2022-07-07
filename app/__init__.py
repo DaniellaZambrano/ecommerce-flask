@@ -54,10 +54,10 @@ def load_user(user_id):
     return Users.find(user_id)
 
 
-CORS(app, origins=app.config['ALLOWED_ORIGINS'], supports_credentials= True)
+CORS(app)
 
 from app.api.user import user
-from app.api.product import item
+# from app.api.product import item
 
 app.register_blueprint(user)
-app.register_blueprint(item)
+# app.register_blueprint(item)

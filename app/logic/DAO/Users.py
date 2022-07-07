@@ -19,7 +19,7 @@ class Users(DAO):
             hashed_password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
 
             print("Creating User....")
-            user = User(data["identification_type"], data["identification_number"], data["cellphone"], data['role_id'], data["name"], data["last_name"], data["username"],data["birth_date"], data["email"], hashed_password.decode('utf8'), data["address"], data["alt_address"])
+            user = User( data["username"],  data["email"], hashed_password.decode('utf8'), data['role_id'])
             print("user created")
             db.session.add(user)
             db.session.add(user.email)
@@ -30,6 +30,24 @@ class Users(DAO):
         except Exception as ex:
             print(ex.__repr__())
             return 0
+
+    def confirm_user(data):
+        """ 
+        Adds to the Database
+        """
+        try:
+            # REQUEST TO UPDATE THE SPECIFIED USER 
+            User.query.filter_by(id = data['id']).first()
+            print("Confirming User....")
+            user = User.confirm_user(data["identification_type"], data["identification_number"], data["cellphone"], data["name"], data["last_name"], data["birth_date"], data["address"], data["alt_address"])
+            print("user was updated")
+
+
+            return user.id
+        except Exception as ex:
+            print(ex.__repr__())
+            return 0
+
 
     def get(self):
         """
